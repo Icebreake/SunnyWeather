@@ -32,4 +32,11 @@ class PlaceViewModel : ViewModel() {
         searchLiveData.value = query
     }
 
+    //由于仓库层中这几个接口的内部没有开启线程，因此也不必借助LiveData对象来观察数据变化，直接调用仓库层中对应的接口并返回即可
+    fun savePlace(place: Place) = Repository.savePlace(place)
+
+    fun getSavedPlace() = Repository.getSavedPlace()
+
+    fun isPlaceSaved() = Repository.isPlaceSaved()
+
 }
