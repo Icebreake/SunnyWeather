@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sunnyweather.android.MainActivity
 import kotlinx.android.synthetic.main.fragment_place.*
 import com.sunnyweather.android.R
 import com.sunnyweather.android.ui.weather.WeatherActivity
@@ -32,7 +33,8 @@ class PlaceFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         //如果当前已有存储的城市数据，那么就获取已存储的数据并解析成Place对象
-        if (viewModel.isPlaceSaved()) {
+        //多做了一层逻辑判断，只有当PlaceFragment被嵌入MainActivity中，并且之前已经存在选中的城市，此时才会直接跳转到WeatherActivity
+        if (activity is MainActivity && viewModel.isPlaceSaved()) {
             val place = viewModel.getSavedPlace()
             //然后使用它的经纬度坐标和城市名直接跳转并传递给WeatherActivity，这样用户就不需要每次都重新搜索并选择程序了
             val intent = Intent(context, WeatherActivity::class.java).apply {
